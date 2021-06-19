@@ -5,7 +5,18 @@ import (
 )
 
 const (
-	API_URL = "https://apiv4.paraswap.io/v2"
+	API_URL          = "https://apiv4.paraswap.io/v2"
+	NETWORK_ETHEREUM = 1
+	NETWORK_ROPSTEN  = 3
+	NETWORK_BINANCE  = 36
+	NETWORK_POLYGON  = 137
+	SELL             = "SELL"
+	BUY              = "BUY"
+	ONE_PERCENT      = 0.01
+	TWO_PERCENT      = 0.01
+	THREE_PERCENT    = 0.03
+	FOUR_PERCENT     = 0.04
+	FIVE_PERCENT     = 0.05
 )
 
 func (c *Client) GetTokenCall() string {

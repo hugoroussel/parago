@@ -32,12 +32,17 @@ func (c *Client) GetTokens() (*AllTokens, error) {
 	return at, nil
 }
 
-// GetRate takes as input two tokens, the amount desired and the side "SELL" or "BUY"
+// GetRate
 // returns the rate object
+// parameters
+// two tokens object,
+// the amount desired
+// "SELL" or "BUY" side
 func (c *Client) GetRate(tokenA *Token, tokenB *Token, amount int64, side string) (*Rate, error) {
 	return c.getRate(tokenA.Address, tokenB.Address, strconv.Itoa(tokenA.Decimals), strconv.Itoa(tokenB.Decimals), amount, side)
 }
 
+// getRate call the rate api
 func (c *Client) getRate(from string, to string, df string, dt string, amount int64, side string) (*Rate, error) {
 	resp, err := http.Get(c.GetRateCall(from, to, df, dt, amount, side))
 	if err != nil {
@@ -63,11 +68,12 @@ func (c *Client) getRate(from string, to string, df string, dt string, amount in
 	return r, nil
 }
 
-// BuildParameters takes as input
-// two token object
+// BuildParameters
+// returns the BuildParameter object containing the transaction data
+// Parameters
+// two token objects
 // the rate object from the GetRate function
 // a receiver if different from the transaction originator
-// returns the BuildParameter object containing the transaction data
 func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, receiver string) (*BuildParamaters, error) {
 
 	pr := rate.PriceRoute
