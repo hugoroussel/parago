@@ -26,7 +26,7 @@ func main() {
 		return
 	}
 
-	bp, err := client.BuildParameters(matic, link, rate)
+	bp, err := client.BuildParameters(matic, link, rate, NULL_ADDRESS)
 	if err != nil {
 		log.Println("something went wrong", err)
 		return

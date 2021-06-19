@@ -63,9 +63,12 @@ func (c *Client) getRate(from string, to string, df string, dt string, amount in
 	return r, nil
 }
 
-// BuildParameters takes as input two token object as well as the rate object from the GetRate function,
+// BuildParameters takes as input
+// two token object
+// the rate object from the GetRate function
+// a receiver if different from the transaction originator
 // returns the BuildParameter object containing the transaction data
-func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate) (*BuildParamaters, error) {
+func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, receiver string) (*BuildParamaters, error) {
 
 	pr := rate.PriceRoute
 
@@ -86,7 +89,7 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate) (*Bui
 		DestAmount:   minAmount,
 		UserAddress:  c.Configuration.UserAddress,
 		Referrer:     c.Configuration.Referrer,
-		Receiver:     NULL_ADDRESS,
+		Receiver:     receiver,
 	}
 
 	payloadBuf := new(bytes.Buffer)
