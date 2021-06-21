@@ -2,6 +2,6 @@ package parago
 
 import "testing"
 
-func TestHello(t *testing.T) {
+func Test(t *testing.T) {
 	main()
 }
