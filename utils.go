@@ -2,6 +2,7 @@ package parago
 
 import (
 	"fmt"
+	"math/big"
 )
 
 const (
@@ -23,9 +24,9 @@ func (c *Client) GetTokenCall() string {
 	return fmt.Sprintf("%v/tokens/%v", API_URL, c.Configuration.Network)
 }
 
-func (c *Client) GetRateCall(from string, to string, df string, dt string, amount int64, side string) string {
+func (c *Client) GetRateCall(from string, to string, df string, dt string, amount *big.Int, side string) string {
 	const pricesURL = `%v/prices?from=%v&to=%v&amount=%v&fromDecimals=%v&toDecimals=%v&side=%v&network=%v`
-	eurl := fmt.Sprintf(pricesURL, API_URL, from, to, amount, df, dt, side, c.Configuration.Network)
+	eurl := fmt.Sprintf(pricesURL, API_URL, from, to, amount.String(), df, dt, side, c.Configuration.Network)
 	return eurl
 }
 

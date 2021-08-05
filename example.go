@@ -2,6 +2,7 @@ package parago
 
 import (
 	"log"
+	"math/big"
 )
 
 // Simple test to show how the client works
@@ -30,7 +31,7 @@ func main() {
 		return
 	}
 
-	rate, err := client.GetRate(weth, dai, 1e18, "SELL")
+	rate, err := client.GetRate(weth, dai, big.NewInt(1e18), "SELL")
 	if err != nil {
 		log.Println("error getting rate", err)
 		return

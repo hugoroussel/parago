@@ -39,12 +39,12 @@ func (c *Client) GetTokens() (*AllTokens, error) {
 // two tokens object,
 // the amount desired
 // "SELL" or "BUY" side
-func (c *Client) GetRate(tokenA *Token, tokenB *Token, amount int64, side string) (*Rate, error) {
+func (c *Client) GetRate(tokenA *Token, tokenB *Token, amount *big.Int, side string) (*Rate, error) {
 	return c.getRate(tokenA.Address, tokenB.Address, strconv.Itoa(tokenA.Decimals), strconv.Itoa(tokenB.Decimals), amount, side)
 }
 
 // getRate call the rate api
-func (c *Client) getRate(from string, to string, df string, dt string, amount int64, side string) (*Rate, error) {
+func (c *Client) getRate(from string, to string, df string, dt string, amount *big.Int, side string) (*Rate, error) {
 	resp, err := http.Get(c.GetRateCall(from, to, df, dt, amount, side))
 	if err != nil {
 		return nil, err
