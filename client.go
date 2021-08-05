@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"math/big"
 	"net/http"
 	"strconv"
@@ -90,7 +91,7 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, recei
 	// Multiply by the slippage and convert to big int
 	finalres, acc := da.Mul(da, multiplier).Int(big.NewInt(0))
 	if acc != 0 {
-		return nil, fmt.Errorf("error with accuracy")
+		log.Println("non exact conversion", finalres.String(), acc)
 	}
 
 	er := &ExchangeRequest{
