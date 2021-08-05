@@ -3,7 +3,6 @@ package parago
 // Configuration is the configuration object of the parago client
 type Configuration struct {
 	Network     int
-	SecretKey   string
 	Referrer    string
 	UserAddress string
 	Slippage    float64
