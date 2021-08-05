@@ -78,7 +78,7 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, recei
 
 	pr := rate.PriceRoute
 
-	da, err := strconv.Atoi(pr.BestRoute[0].DestAmount)
+	da, err := strconv.ParseInt(pr.BestRoute[0].DestAmount, 10, 64)
 	if err != nil {
 		return nil, err
 	}
