@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/big"
 	"net/http"
 	"strconv"
 )
@@ -78,12 +79,19 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, recei
 
 	pr := rate.PriceRoute
 
-	da, err := strconv.ParseInt(pr.BestRoute[0].DestAmount, 10, 64)
-	if err != nil {
-		return nil, err
+	multiplier := big.NewFloat(1 - c.Configuration.Slippage)
+
+	// Convert the result into a big float
+	da, check := big.NewFloat(0).SetString(pr.BestRoute[0].DestAmount)
+	if !check {
+		return nil, fmt.Errorf("error setting destination amount")
 	}
 
-	minAmount := strconv.Itoa(int((float64(da) * (1 - c.Configuration.Slippage))))
+	// Multiply by the slippage and convert to big int
+	finalres, acc := da.Mul(da, multiplier).Int(big.NewInt(0))
+	if acc != 0 {
+		return nil, fmt.Errorf("error with accuracy")
+	}
 
 	er := &ExchangeRequest{
 		PriceRoute:   rate.PriceRoute,
@@ -92,14 +100,14 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, recei
 		DestToken:    tokenB.Address,
 		ToDecimals:   tokenB.Decimals,
 		SrcAmount:    pr.BestRoute[0].SrcAmount,
-		DestAmount:   minAmount,
+		DestAmount:   finalres.String(),
 		UserAddress:  c.Configuration.UserAddress,
 		Referrer:     c.Configuration.Referrer,
 		Receiver:     receiver,
 	}
 
 	payloadBuf := new(bytes.Buffer)
-	err = json.NewEncoder(payloadBuf).Encode(er)
+	err := json.NewEncoder(payloadBuf).Encode(er)
 	if err != nil {
 		return nil, err
 	}

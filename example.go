@@ -10,7 +10,7 @@ func main() {
 	log.Println("Welcome to parago")
 
 	// Setup your address here
-	c := NewConfiguration(NETWORK_POLYGON, "paraswap.io", "0xAccountAddress", ONE_PERCENT)
+	c := NewConfiguration(NETWORK_ROPSTEN, "paraswap.io", "0x047E7375215af92E9b0Af86e47835Fe181f3C8af", ONE_PERCENT)
 
 	client, err := NewClient(c)
 	if err != nil {
@@ -18,25 +18,25 @@ func main() {
 		return
 	}
 
-	matic, err := client.GetToken("MATIC")
+	weth, err := client.GetToken("WETH")
 	if err != nil {
 		log.Println("Wrong token symbol: ", err)
 		return
 	}
 
-	usdc, err := client.GetToken("USDC")
+	dai, err := client.GetToken("DAI")
 	if err != nil {
 		log.Println("Wrong token symbol: ", err)
 		return
 	}
 
-	rate, err := client.GetRate(matic, usdc, 1e18, "SELL")
+	rate, err := client.GetRate(weth, dai, 1e18, "SELL")
 	if err != nil {
 		log.Println("error getting rate", err)
 		return
 	}
 
-	bp, err := client.BuildParameters(matic, usdc, rate, NULL_ADDRESS)
+	bp, err := client.BuildParameters(weth, dai, rate, NULL_ADDRESS)
 	if err != nil {
 		log.Println("something went wrong", err)
 		return
