@@ -141,7 +141,7 @@ type Rate struct {
 	} `json:"priceRoute"`
 }
 
-type BuildParamaters struct {
+type BuildParameters struct {
 	From     string `json:"from"`
 	To       string `json:"to"`
 	ChainID  int    `json:"chainId"`

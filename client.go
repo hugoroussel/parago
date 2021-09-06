@@ -76,7 +76,7 @@ func (c *Client) getRate(from string, to string, df string, dt string, amount *b
 // two token objects
 // the rate object from the GetRate function
 // a receiver if different from the transaction originator
-func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, receiver string) (*BuildParamaters, error) {
+func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, receiver string) (*BuildParameters, error) {
 
 	pr := rate.PriceRoute
 
@@ -129,7 +129,7 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, recei
 		return nil, err
 	}
 
-	bp := &BuildParamaters{}
+	bp := &BuildParameters{}
 	err = json.Unmarshal(dat, bp)
 	if err != nil {
 		return nil, err
