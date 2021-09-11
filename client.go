@@ -17,6 +17,7 @@ const (
 
 // GetTokens returns all tokens supported on a given network
 func (c *Client) GetTokens() (*AllTokens, error) {
+	log.Println(c.GetTokenCall())
 	resp, err := http.Get(c.GetTokenCall())
 	if err != nil {
 		return nil, err

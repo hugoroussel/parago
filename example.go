@@ -19,23 +19,27 @@ func main() {
 		return
 	}
 
-	weth, err := client.GetToken("WETH")
+	weth, err := client.GetTokenWithSymbol("WETH")
 	if err != nil {
 		log.Println("Wrong token symbol: ", err)
 		return
 	}
 
-	dai, err := client.GetToken("DAI")
+	dai, err := client.GetTokenWithSymbol("DAI")
 	if err != nil {
 		log.Println("Wrong token symbol: ", err)
 		return
 	}
 
-	rate, err := client.GetRate(weth, dai, big.NewInt(1e18), "SELL")
+	log.Println(weth, dai)
+
+	rate, err := client.GetRate(weth, dai, big.NewInt(1e16), "SELL")
 	if err != nil {
 		log.Println("error getting rate", err)
 		return
 	}
+
+	log.Println(rate)
 
 	bp, err := client.BuildParameters(weth, dai, rate, NULL_ADDRESS)
 	if err != nil {
@@ -44,4 +48,5 @@ func main() {
 	}
 
 	log.Println("Add this data to your transaction", bp.Data)
+
 }
