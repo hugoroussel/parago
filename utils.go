@@ -15,7 +15,7 @@ const (
 	SELL             = "SELL"
 	BUY              = "BUY"
 	ONE_PERCENT      = 0.01
-	TWO_PERCENT      = 0.01
+	TWO_PERCENT      = 0.02
 	THREE_PERCENT    = 0.03
 	FOUR_PERCENT     = 0.04
 	FIVE_PERCENT     = 0.05
