@@ -105,7 +105,7 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Ratev5, rec
 		ToDecimals:   tokenB.Decimals,
 		SrcAmount:    pr.BestRoute[0].Swaps[0].SwapExchanges[0].SrcAmount,
 		DestAmount:   finalres.String(),
-		UserAddress:  c.Configuration.UserAddress,
+		UserAddress:  receiver,
 		Referrer:     c.Configuration.Referrer,
 		Receiver:     receiver,
 	}
