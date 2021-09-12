@@ -33,7 +33,7 @@ func (c *Client) GetRateCall(from string, to string, df string, dt string, amoun
 }
 
 func (c *Client) BuildParametersCall() string {
-	return fmt.Sprintf("%v/transactions/%v&ignoreChecks=true", API_URL, c.Configuration.Network)
+	return fmt.Sprintf("%v/transactions/%v?ignoreChecks=true", API_URL, c.Configuration.Network)
 }
 
 func (c *Client) GetTokenWithSymbol(symbol string) (*Token, error) {
