@@ -4,13 +4,13 @@ package parago
 type ExchangeRequest struct {
 	PriceRoute   interface{} `json:"priceRoute"`
 	SrcToken     string      `json:"srcToken"`
-	FromDecimals int         `json:"fromDecimals"`
+	FromDecimals int         `json:"srcDecimals"`
 	DestToken    string      `json:"destToken"`
-	ToDecimals   int         `json:"toDecimals"`
+	ToDecimals   int         `json:"destDecimals"`
 	SrcAmount    string      `json:"srcAmount"`
 	DestAmount   string      `json:"destAmount"`
 	UserAddress  string      `json:"userAddress"`
-	Referrer     string      `json:"referrer"`
+	Referrer     string      `json:"partner"`
 	Receiver     string      `json:"receiver"`
 }
 
@@ -80,6 +80,61 @@ type PriceRoute struct {
 	PriceID               string `json:"priceID"`
 	Hmac                  string `json:"hmac"`
 }
+
+type Ratev5 struct {
+	PriceRoute struct {
+		BlockNumber  int    `json:"blockNumber"`
+		Network      int    `json:"network"`
+		SrcToken     string `json:"srcToken"`
+		SrcDecimals  int    `json:"srcDecimals"`
+		SrcAmount    string `json:"srcAmount"`
+		DestToken    string `json:"destToken"`
+		DestDecimals int    `json:"destDecimals"`
+		DestAmount   string `json:"destAmount"`
+		BestRoute    []struct {
+			Percent int `json:"percent"`
+			Swaps   []struct {
+				SrcToken      string `json:"srcToken"`
+				SrcDecimals   int    `json:"srcDecimals"`
+				DestToken     string `json:"destToken"`
+				DestDecimals  int    `json:"destDecimals"`
+				SwapExchanges []struct {
+					Exchange      string   `json:"exchange"`
+					SrcAmount     string   `json:"srcAmount"`
+					DestAmount    string   `json:"destAmount"`
+					Percent       int      `json:"percent"`
+					PoolAddresses []string `json:"poolAddresses"`
+					Data          struct {
+						Router    string   `json:"router"`
+						Path      []string `json:"path"`
+						Factory   string   `json:"factory"`
+						InitCode  string   `json:"initCode"`
+						FeeFactor int      `json:"feeFactor"`
+						Pools     []struct {
+							Address   string `json:"address"`
+							Fee       int    `json:"fee"`
+							Direction bool   `json:"direction"`
+						} `json:"pools"`
+						GasUSD string `json:"gasUSD"`
+					} `json:"data"`
+				} `json:"swapExchanges"`
+			} `json:"swaps"`
+		} `json:"bestRoute"`
+		GasCostUSD         string `json:"gasCostUSD"`
+		GasCost            string `json:"gasCost"`
+		Side               string `json:"side"`
+		TokenTransferProxy string `json:"tokenTransferProxy"`
+		ContractAddress    string `json:"contractAddress"`
+		ContractMethod     string `json:"contractMethod"`
+		PartnerFee         int    `json:"partnerFee"`
+		SrcUSD             string `json:"srcUSD"`
+		DestUSD            string `json:"destUSD"`
+		Partner            string `json:"partner"`
+		MaxImpactReached   bool   `json:"maxImpactReached"`
+		Hmac               string `json:"hmac"`
+	} `json:"priceRoute"`
+}
+
 type Rate struct {
 	PriceRoute struct {
 		BestRoute []struct {

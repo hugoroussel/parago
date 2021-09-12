@@ -41,14 +41,15 @@ func (c *Client) GetTokens() (*AllTokens, error) {
 // two tokens object,
 // the amount desired
 // "SELL" or "BUY" side
-func (c *Client) GetRate(tokenA *Token, tokenB *Token, amount *big.Int, side string) (*Rate, error) {
+func (c *Client) GetRate(tokenA *Token, tokenB *Token, amount *big.Int, side string) (*Ratev5, error) {
 	return c.getRate(tokenA.Address, tokenB.Address, strconv.Itoa(tokenA.Decimals), strconv.Itoa(tokenB.Decimals), amount, side)
 }
 
 // getRate call the rate api
-func (c *Client) getRate(from string, to string, df string, dt string, amount *big.Int, side string) (*Rate, error) {
+func (c *Client) getRate(from string, to string, df string, dt string, amount *big.Int, side string) (*Ratev5, error) {
 	resp, err := http.Get(c.GetRateCall(from, to, df, dt, amount, side))
 	if err != nil {
+		log.Println("here")
 		return nil, err
 	}
 	defer resp.Body.Close()
@@ -62,8 +63,9 @@ func (c *Client) getRate(from string, to string, df string, dt string, amount *b
 	if err != nil {
 		return nil, err
 	}
+	log.Println("here", string(data))
 
-	r := &Rate{}
+	r := &Ratev5{}
 	err = json.Unmarshal(data, r)
 	if err != nil {
 		return nil, err
@@ -77,14 +79,14 @@ func (c *Client) getRate(from string, to string, df string, dt string, amount *b
 // two token objects
 // the rate object from the GetRate function
 // a receiver if different from the transaction originator
-func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, receiver string) (*BuildParameters, error) {
+func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Ratev5, receiver string) (*BuildParameters, error) {
 
 	pr := rate.PriceRoute
 
 	multiplier := big.NewFloat(1 - c.Configuration.Slippage)
 
 	// Convert the result into a big float
-	da, check := big.NewFloat(0).SetString(pr.BestRoute[0].DestAmount)
+	da, check := big.NewFloat(0).SetString(pr.BestRoute[0].Swaps[0].SwapExchanges[0].DestAmount)
 	if !check {
 		return nil, fmt.Errorf("error setting destination amount")
 	}
@@ -101,7 +103,7 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, recei
 		FromDecimals: tokenA.Decimals,
 		DestToken:    tokenB.Address,
 		ToDecimals:   tokenB.Decimals,
-		SrcAmount:    pr.BestRoute[0].SrcAmount,
+		SrcAmount:    pr.BestRoute[0].Swaps[0].SwapExchanges[0].SrcAmount,
 		DestAmount:   finalres.String(),
 		UserAddress:  c.Configuration.UserAddress,
 		Referrer:     c.Configuration.Referrer,
@@ -121,6 +123,7 @@ func (c *Client) BuildParameters(tokenA *Token, tokenB *Token, rate *Rate, recei
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
+		log.Println("here bp")
 		errorBody, _ := ioutil.ReadAll(resp.Body)
 		return nil, fmt.Errorf("api returned a non 200 code : %v. Error : %v", resp.StatusCode, string(errorBody))
 	}

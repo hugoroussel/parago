@@ -11,7 +11,7 @@ func main() {
 	log.Println("Welcome to parago")
 
 	// Setup your address here
-	c := NewConfiguration(NETWORK_ROPSTEN, "paraswap.io", "0x047E7375215af92E9b0Af86e47835Fe181f3C8af", ONE_PERCENT)
+	c := NewConfiguration(NETWORK_ROPSTEN, "paraswap.io", "your address here", ONE_PERCENT)
 
 	client, err := NewClient(c)
 	if err != nil {
@@ -19,7 +19,7 @@ func main() {
 		return
 	}
 
-	weth, err := client.GetTokenWithSymbol("WETH")
+	weth, err := client.GetTokenWithSymbol("ETH")
 	if err != nil {
 		log.Println("Wrong token symbol: ", err)
 		return
