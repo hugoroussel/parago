@@ -26,14 +26,14 @@ func (c *Client) GetTokenCall() string {
 }
 
 func (c *Client) GetRateCall(from string, to string, df string, dt string, amount *big.Int, side string) string {
-	const pricesURL = `%v/prices?srcToken=%v&destToken=%v&amount=%v&srcDecimals=%v&destDecimals=%v&side=%v&network=%v&ignoreChecks=true`
+	const pricesURL = `%v/prices?srcToken=%v&destToken=%v&amount=%v&srcDecimals=%v&destDecimals=%v&side=%v&network=%v`
 	eurl := fmt.Sprintf(pricesURL, API_URL, from, to, amount.String(), df, dt, side, c.Configuration.Network)
 	log.Println(eurl)
 	return eurl
 }
 
 func (c *Client) BuildParametersCall() string {
-	return fmt.Sprintf("%v/transactions/%v", API_URL, c.Configuration.Network)
+	return fmt.Sprintf("%v/transactions/%v&ignoreChecks=true", API_URL, c.Configuration.Network)
 }
 
 func (c *Client) GetTokenWithSymbol(symbol string) (*Token, error) {
