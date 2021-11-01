@@ -10,7 +10,7 @@ const (
 	API_URL          = "https://apiv5.paraswap.io"
 	NETWORK_ETHEREUM = 1
 	NETWORK_ROPSTEN  = 3
-	NETWORK_BINANCE  = 36
+	NETWORK_BINANCE  = 56
 	NETWORK_POLYGON  = 137
 	SELL             = "SELL"
 	BUY              = "BUY"
