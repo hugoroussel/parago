@@ -35,12 +35,12 @@ func NewConfiguration(network int, referrer string, userAddress string, slippage
 // NewClient returns a new parago client with all the tokens corresponding to the configuration network
 func NewClient(c *Configuration) (*Client, error) {
 	client := &Client{Configuration: c}
-	/*
+	if c.Network != NETWORK_BINANCE {
 		at, err := client.GetTokens()
 		if err != nil {
 			return nil, err
 		}
 		client.AllTokens = at
-	*/
+	}
 	return client, nil
 }
